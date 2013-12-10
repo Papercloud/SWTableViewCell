@@ -129,7 +129,6 @@
     if (self.useCustomCells)
     {
         UMTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"UMCell" forIndexPath:indexPath];
-        [cell setCellHeight:cell.frame.size.height];
         cell.containingTableView = tableView;
 
         cell.label.text = [NSString stringWithFormat:@"Section: %d, Seat: %d", indexPath.section, indexPath.row];
