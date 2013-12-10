@@ -8,7 +8,6 @@
 
 #import "SWTableViewCell.h"
 #import <UIKit/UIGestureRecognizerSubclass.h>
-#import "SWUtilityButtonView.h"
 
 static NSString * const kTableViewCellContentView = @"UITableViewCellContentView";
 
@@ -167,6 +166,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
                                                                                   utilityButtonSelector:@selector(leftUtilityButtonHandler:)];
     
     self.scrollViewButtonViewLeft = scrollViewButtonViewLeft;
+    [scrollViewButtonViewLeft setUtilityButtonStyle:self.leftUtilityButtonStyle];
     [scrollViewButtonViewLeft setFrame:CGRectMake([self leftUtilityButtonsWidth], 0, [self leftUtilityButtonsWidth], self.height)];
     
     [self.cellScrollView insertSubview:scrollViewButtonViewLeft belowSubview:self.scrollViewContentView];
@@ -184,8 +184,8 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     SWUtilityButtonView *scrollViewButtonViewRight = [[SWUtilityButtonView alloc] initWithUtilityButtons:rightUtilityButtons
                                                                                               parentCell:self
                                                                                    utilityButtonSelector:@selector(rightUtilityButtonHandler:)];
-
     self.scrollViewButtonViewRight = scrollViewButtonViewRight;
+    [scrollViewButtonViewRight setUtilityButtonStyle:self.rightUtilityButtonStyle];
     [scrollViewButtonViewRight setFrame:CGRectMake(CGRectGetWidth(self.bounds), 0, [self rightUtilityButtonsWidth], self.height)];
     
     [self.cellScrollView insertSubview:scrollViewButtonViewRight belowSubview:self.scrollViewContentView];
@@ -196,6 +196,17 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     [self setNeedsLayout];
 }
 
+- (void)setRightUtilityButtonStyle:(SWUtilityButtonStyle)rightUtilityButtonStyle
+{
+    _rightUtilityButtonStyle = rightUtilityButtonStyle;
+    [self.scrollViewButtonViewRight setUtilityButtonStyle:_rightUtilityButtonStyle];
+}
+
+- (void)setLeftUtilityButtonStyle:(SWUtilityButtonStyle)leftUtilityButtonStyle
+{
+    _leftUtilityButtonStyle = leftUtilityButtonStyle;
+    [self.scrollViewButtonViewLeft setUtilityButtonStyle:_leftUtilityButtonStyle];
+}
 
 #pragma mark Selection
 
@@ -346,11 +357,6 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 - (void)setCellHeight:(CGFloat)height
 {
     _height = height;
-    
-    // update the utility button height
-    [self.scrollViewButtonViewLeft setHeight:height];
-    [self.scrollViewButtonViewRight setHeight:height];
-    
     [self layoutSubviews];
 }
 

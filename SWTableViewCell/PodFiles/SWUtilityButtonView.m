@@ -42,6 +42,28 @@
     return self;
 }
 
+#pragma mark -
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    for (NSUInteger utilityButtonsCounter = 0; utilityButtonsCounter < _utilityButtons.count; utilityButtonsCounter++)
+    {
+        UIButton *utilityButton = (UIButton *)_utilityButtons[utilityButtonsCounter];
+        CGFloat utilityButtonXCord = 0;
+        
+        if (self.utilityButtonStyle == SWUtilityButtonStyleVertical) {
+            CGFloat height = (CGRectGetHeight(self.bounds)/_utilityButtons.count);
+            NSLog(@"height: %f",height);
+            [utilityButton setFrame:CGRectMake(utilityButtonXCord, height * utilityButtonsCounter, [self utilityButtonsWidth], height)];
+        } else {
+            if (utilityButtonsCounter >= 1) utilityButtonXCord = _utilityButtonWidth * utilityButtonsCounter;
+            [utilityButton setFrame:CGRectMake(utilityButtonXCord, 0, _utilityButtonWidth, CGRectGetHeight(self.bounds))];
+        }
+    }
+}
+
 #pragma mark Populating utility buttons
 
 - (CGFloat)calculateUtilityButtonWidth
@@ -57,7 +79,11 @@
 
 - (CGFloat)utilityButtonsWidth
 {
-    return (_utilityButtons.count * _utilityButtonWidth);
+    if (self.utilityButtonStyle == SWUtilityButtonStyleVertical) {
+        return kUtilityButtonWidthDefault;
+    } else {
+        return (_utilityButtons.count * _utilityButtonWidth);
+    }
 }
 
 - (void)populateUtilityButtons
@@ -75,17 +101,6 @@
         [utilityButton addGestureRecognizer:utilityButtonTapGestureRecognizer];
         [self addSubview: utilityButton];
         utilityButtonsCounter++;
-    }
-}
-
-- (void)setHeight:(CGFloat)height
-{
-    for (NSUInteger utilityButtonsCounter = 0; utilityButtonsCounter < _utilityButtons.count; utilityButtonsCounter++)
-    {
-        UIButton *utilityButton = (UIButton *)_utilityButtons[utilityButtonsCounter];
-        CGFloat utilityButtonXCord = 0;
-        if (utilityButtonsCounter >= 1) utilityButtonXCord = _utilityButtonWidth * utilityButtonsCounter;
-        [utilityButton setFrame:CGRectMake(utilityButtonXCord, 0, _utilityButtonWidth, height)];
     }
 }
 

@@ -155,6 +155,7 @@
                                       rightUtilityButtons:[self rightButtons]];
             cell.delegate = self;
         }
+        [cell setRightUtilityButtonStyle:SWUtilityButtonStyleVertical];
         
         NSDate *dateObject = _testArray[indexPath.section][indexPath.row];
         cell.textLabel.text = [dateObject description];

@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSInteger, SWUtilityButtonStyle) {
+    SWUtilityButtonStyleHorizontal,
+    SWUtilityButtonStyleVertical
+};
+
 @class SWTableViewCell;
 
 @interface SWUtilityButtonView : UIView
@@ -15,7 +21,8 @@
 @property (nonatomic) CGFloat utilityButtonWidth;
 @property (nonatomic, weak) SWTableViewCell *parentCell;
 @property (nonatomic) SEL utilityButtonSelector;
-@property (nonatomic) CGFloat height;
+
+@property (nonatomic, assign) SWUtilityButtonStyle utilityButtonStyle;
 
 - (id)initWithUtilityButtons:(NSArray *)utilityButtons parentCell:(SWTableViewCell *)parentCell utilityButtonSelector:(SEL)utilityButtonSelector;
 
