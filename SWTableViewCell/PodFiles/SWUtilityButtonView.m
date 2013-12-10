@@ -61,7 +61,6 @@
         
         if (self.utilityButtonStyle == SWUtilityButtonStyleVertical) {
             CGFloat height = (CGRectGetHeight(self.bounds)/_utilityButtons.count);
-            NSLog(@"height: %f",height);
             [utilityButton setFrame:CGRectMake(utilityButtonXCord, height * utilityButtonsCounter, [self utilityButtonsWidth], height)];
         } else {
             if (utilityButtonsCounter >= 1) utilityButtonXCord = self.utilityButtonWidth * utilityButtonsCounter;
