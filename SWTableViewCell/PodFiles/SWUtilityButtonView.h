@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, SWUtilityButtonStyle) {
 @interface SWUtilityButtonView : UIView
 
 @property (nonatomic, strong) NSArray *utilityButtons;
-@property (nonatomic) CGFloat utilityButtonWidth;
+@property (nonatomic, readonly) CGFloat utilityButtonWidth;
 @property (nonatomic, weak) SWTableViewCell *parentCell;
 @property (nonatomic) SEL utilityButtonSelector;
 

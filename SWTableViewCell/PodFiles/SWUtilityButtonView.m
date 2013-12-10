@@ -20,7 +20,6 @@
     
     if (self) {
         self.utilityButtons = utilityButtons;
-        self.utilityButtonWidth = [self calculateUtilityButtonWidth];
         self.parentCell = parentCell;
         self.utilityButtonSelector = utilityButtonSelector;
     }
@@ -34,7 +33,6 @@
     
     if (self) {
         self.utilityButtons = utilityButtons;
-        self.utilityButtonWidth = [self calculateUtilityButtonWidth];
         self.parentCell = parentCell;
         self.utilityButtonSelector = utilityButtonSelector;
     }
@@ -58,21 +56,23 @@
             NSLog(@"height: %f",height);
             [utilityButton setFrame:CGRectMake(utilityButtonXCord, height * utilityButtonsCounter, [self utilityButtonsWidth], height)];
         } else {
-            if (utilityButtonsCounter >= 1) utilityButtonXCord = _utilityButtonWidth * utilityButtonsCounter;
-            [utilityButton setFrame:CGRectMake(utilityButtonXCord, 0, _utilityButtonWidth, CGRectGetHeight(self.bounds))];
+            if (utilityButtonsCounter >= 1) utilityButtonXCord = self.utilityButtonWidth * utilityButtonsCounter;
+            [utilityButton setFrame:CGRectMake(utilityButtonXCord, 0, self.utilityButtonWidth, CGRectGetHeight(self.bounds))];
         }
     }
 }
 
 #pragma mark Populating utility buttons
 
-- (CGFloat)calculateUtilityButtonWidth
+- (CGFloat)utilityButtonWidth
 {
     CGFloat buttonWidth = kUtilityButtonWidthDefault;
-    if (buttonWidth * _utilityButtons.count > kUtilityButtonsWidthMax)
-    {
-        CGFloat buffer = (buttonWidth * _utilityButtons.count) - kUtilityButtonsWidthMax;
-        buttonWidth -= (buffer / _utilityButtons.count);
+    if (self.utilityButtonStyle == SWUtilityButtonStyleHorizontal) {
+        if (buttonWidth * _utilityButtons.count > kUtilityButtonsWidthMax)
+        {
+            CGFloat buffer = (buttonWidth * _utilityButtons.count) - kUtilityButtonsWidthMax;
+            buttonWidth -= (buffer / _utilityButtons.count);
+        }
     }
     return buttonWidth;
 }
@@ -82,7 +82,7 @@
     if (self.utilityButtonStyle == SWUtilityButtonStyleVertical) {
         return kUtilityButtonWidthDefault;
     } else {
-        return (_utilityButtons.count * _utilityButtonWidth);
+        return (_utilityButtons.count * self.utilityButtonWidth);
     }
 }
 
@@ -91,9 +91,6 @@
     NSUInteger utilityButtonsCounter = 0;
     for (UIButton *utilityButton in _utilityButtons)
     {
-        CGFloat utilityButtonXCord = 0;
-        if (utilityButtonsCounter >= 1) utilityButtonXCord = _utilityButtonWidth * utilityButtonsCounter;
-        [utilityButton setFrame:CGRectMake(utilityButtonXCord, 0, _utilityButtonWidth, CGRectGetHeight(self.bounds))];
         [utilityButton setTag:utilityButtonsCounter];
         SWUtilityButtonTapGestureRecognizer *utilityButtonTapGestureRecognizer = [[SWUtilityButtonTapGestureRecognizer alloc] initWithTarget:_parentCell
                                                                                                                                       action:_utilityButtonSelector];
