@@ -42,6 +42,14 @@
 
 #pragma mark -
 
+- (void)setUtilityButtonStyle:(SWUtilityButtonStyle)utilityButtonStyle
+{
+    _utilityButtonStyle = utilityButtonStyle;
+    [self setNeedsLayout];
+}
+
+#pragma mark -
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
