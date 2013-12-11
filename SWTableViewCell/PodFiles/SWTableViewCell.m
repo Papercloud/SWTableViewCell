@@ -211,26 +211,23 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 - (void)scrollViewPressed:(id)sender
 {
     SWLongPressGestureRecognizer *longPressGestureRecognizer = (SWLongPressGestureRecognizer *)sender;
-    
-    if (longPressGestureRecognizer.state == UIGestureRecognizerStateEnded)
-    {
-        // Gesture recognizer ended without failing so we select the cell
-        [self selectCell];
-        
-        // Set back to deselected
-        [self setSelected:NO];
-    }
-    else
-    {
-        // Handle the highlighting of the cell
-        if (self.isHighlighted)
-        {
-            [self setHighlighted:NO];
-        }
-        else
-        {
+    switch (longPressGestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
             [self highlightCell];
-        }
+        case UIGestureRecognizerStateChanged:
+            break;
+        case UIGestureRecognizerStateEnded:
+            // Gesture recognizer ended without failing so we select the cell
+            [self selectCell];
+            // Set back to deselected
+            [self setSelected:NO];
+            break;
+        case UIGestureRecognizerStateCancelled:
+            [self setSelected:NO];
+            [self setHighlighted:NO];
+            break;
+        default:
+            break;
     }
 }
 
