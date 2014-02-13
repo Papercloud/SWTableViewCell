@@ -29,7 +29,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.rowHeight = 90;
-    self.tableView.allowsSelection = NO; // We essentially implement our own selection
     
     self.navigationItem.title = @"Pull to Toggle Cell Type";
     
@@ -74,8 +73,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"cell selected at index path %d:%d", indexPath.section, indexPath.row);
-
-    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -112,31 +109,27 @@
 
 #pragma mark - UIScrollViewDelegate
 
-///*
-// This makes it so cells will not scroll sideways when the table view is scrolling.
-// */
-//
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    [SWTableViewCell setContainingTableViewIsScrolling:YES];
-//}
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    [SWTableViewCell setContainingTableViewIsScrolling:NO];
-//}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (self.useCustomCells)
     {
+        
         UMTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"UMCell" forIndexPath:indexPath];
         cell.containingTableView = tableView;
+        
+        UMTableViewCell __weak *weakCell = cell;
+                
+        [cell setAppearanceWithBlock:^{
+            weakCell.leftUtilityButtons = [self leftButtons];
+            weakCell.rightUtilityButtons = [self rightButtons];
+            weakCell.delegate = self;
+            weakCell.containingTableView = tableView;
+        } force:NO];
+        
+        [cell setCellHeight:cell.frame.size.height];
 
         cell.label.text = [NSString stringWithFormat:@"Section: %d, Seat: %d", indexPath.section, indexPath.row];
         
-        cell.leftUtilityButtons = [self leftButtons];
-        cell.rightUtilityButtons = [self rightButtons];
-        cell.delegate = self;
-
         return cell;
     }
     else
@@ -164,6 +157,7 @@
 
         return cell;
     }
+    
 }
 
 - (NSArray *)rightButtons
@@ -256,6 +250,10 @@
         default:
             break;
     }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+    return YES;
 }
 
 @end

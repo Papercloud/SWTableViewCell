@@ -14,6 +14,7 @@
 #import "NSMutableArray+SWUtilityButtons.h"
 #import "Constants.h"
 #import "SWUtilityButtonView.h"
+#import "SWConstants.h"
 
 @class SWTableViewCell;
 
@@ -29,6 +30,8 @@ typedef enum {
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index;
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index;
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state;
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell;
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state;
 
 @end
 
@@ -36,7 +39,8 @@ typedef enum {
 
 @property (nonatomic, strong) NSArray *leftUtilityButtons;
 @property (nonatomic, strong) NSArray *rightUtilityButtons;
-@property (nonatomic) id <SWTableViewCellDelegate> delegate;
+@property (nonatomic, weak) id <SWTableViewCellDelegate> delegate;
+@property (nonatomic, strong) SWCellScrollView *cellScrollView;
 @property (nonatomic, weak) UITableView *containingTableView;
 
 @property (nonatomic, assign) SWUtilityButtonStyle rightUtilityButtonStyle;
@@ -46,5 +50,6 @@ typedef enum {
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor;
 - (void)hideUtilityButtonsAnimated:(BOOL)animated;
+- (void)setAppearanceWithBlock:(void (^) ())appearanceBlock force:(BOOL)force;
 
 @end
