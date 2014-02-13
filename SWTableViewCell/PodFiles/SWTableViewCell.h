@@ -12,7 +12,6 @@
 #import "SWLongPressGestureRecognizer.h"
 #import "SWUtilityButtonTapGestureRecognizer.h"
 #import "NSMutableArray+SWUtilityButtons.h"
-#import "Constants.h"
 #import "SWUtilityButtonView.h"
 #import "SWConstants.h"
 

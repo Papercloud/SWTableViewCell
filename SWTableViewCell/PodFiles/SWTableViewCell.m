@@ -563,7 +563,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
             CGFloat scrollViewWidth = MIN(scrollView.contentOffset.x - [self leftUtilityButtonsWidth], [self rightUtilityButtonsWidth]);
             
             // Expose the right button view
-            self.scrollViewButtonViewRight.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - scrollViewWidth), 0.0f, scrollViewWidth,self.height);
+            self.scrollViewButtonViewRight.frame = CGRectMake(scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - scrollViewWidth), 0.0f, scrollViewWidth,CGRectGetHeight(self.bounds));
             
             CGRect scrollViewBounds = self.scrollViewButtonViewRight.bounds;
             scrollViewBounds.origin.x = MAX([self rightUtilityButtonsWidth] - scrollViewWidth, [self rightUtilityButtonsWidth] - scrollView.contentOffset.x);
@@ -574,9 +574,6 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     else
     {
         // Expose the left button view
-
-        self.scrollViewButtonViewLeft.frame = CGRectMake([self leftUtilityButtonsWidth], 0.0f, scrollViewWidth, CGRectGetHeight(self.bounds));
-        
 
         if ([self leftUtilityButtonsWidth] > 0)
         {
@@ -590,7 +587,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
             }
             CGFloat scrollViewWidth = MIN(scrollView.contentOffset.x - [self leftUtilityButtonsWidth], [self leftUtilityButtonsWidth]);
             
-            self.scrollViewButtonViewLeft.frame = CGRectMake([self leftUtilityButtonsWidth], 0.0f, scrollViewWidth, self.height);
+            self.scrollViewButtonViewLeft.frame = CGRectMake([self leftUtilityButtonsWidth], 0.0f, scrollViewWidth, CGRectGetHeight(self.bounds));
         }
 
     }

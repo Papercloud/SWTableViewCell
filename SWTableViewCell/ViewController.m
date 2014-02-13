@@ -126,8 +126,6 @@
             weakCell.containingTableView = tableView;
         } force:NO];
         
-        [cell setCellHeight:cell.frame.size.height];
-
         cell.label.text = [NSString stringWithFormat:@"Section: %d, Seat: %d", indexPath.section, indexPath.row];
         
         return cell;
